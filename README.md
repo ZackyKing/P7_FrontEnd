@@ -1,4 +1,10 @@
-# Welcome to your Expo app 👋
+#Output
+![TGS7_Todos1](https://github.com/user-attachments/assets/7c2417bc-84ac-4cd0-9b16-6af8ac0ebe09)
+![TGS7_LoginPage](https://github.com/user-attachments/assets/b522231b-43b2-46d9-a094-4b19cff9a70c)
+![TGS7_Profile](https://github.com/user-attachments/assets/213a8908-2b7d-4742-b372-8d29a64a63d6)
+![TGS7_Profile1](https://github.com/user-attachments/assets/17c6cafe-d61c-4d26-9013-0fe593930775)
+![TGS7_Register](https://github.com/user-attachments/assets/303a1cc1-d467-4822-87c7-fab4ec98bcfa)
+![TGS7_Todos](https://github.com/user-attachments/assets/5fe0cc0a-38c0-40b9-93ac-781b2d77836c)
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
