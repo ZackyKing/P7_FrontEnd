@@ -1,9 +1,10 @@
-import React, {useState} from "react";
-import {StyleSheet, Text, TextInput, TouchableOpacity} from "react-native";
-import {useRouter} from "expo-router";
+import React, { useState } from "react";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useRouter } from "expo-router";
 import axios from "axios";
-import {ThemedView} from "@/components/ThemedView";
-import {Button, Dialog, PaperProvider, Portal} from "react-native-paper";
+import { ThemedView } from "@/components/ThemedView";
+import { Button, Dialog, PaperProvider, Portal } from "react-native-paper";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import API_URL from "../../config/config";
 
 export default function RegisterScreen() {
@@ -16,7 +17,7 @@ export default function RegisterScreen() {
 
     const handleRegister = async () => {
         try {
-            await axios.post(`${API_URL}/api/auth/register`, {username, password, email});
+            await axios.post(`${API_URL}/api/auth/register`, { username, password, email });
             router.replace("/auth/LoginScreen");
         } catch (error) {
             const errorMessage = (error as any).response?.data?.message || "An error occurred";
@@ -30,28 +31,40 @@ export default function RegisterScreen() {
             <ThemedView style={styles.container}>
                 <Text style={styles.title}>Create an Account</Text>
                 <Text style={styles.subtitle}>Join us and get started</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Username"
-                    value={username}
-                    onChangeText={setUsername}
-                    autoCapitalize="none"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Email"
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
-                />
+                <View style={styles.inputContainer}>
+                    <Icon name="account" size={24} color="#ccc" style={styles.icon} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Username"
+                        placeholderTextColor="#ccc"
+                        value={username}
+                        onChangeText={setUsername}
+                        autoCapitalize="none"
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Icon name="email" size={24} color="#ccc" style={styles.icon} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Email"
+                        placeholderTextColor="#ccc"
+                        value={email}
+                        onChangeText={setEmail}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Icon name="lock" size={24} color="#ccc" style={styles.icon} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Password"
+                        placeholderTextColor="#ccc"
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry
+                    />
+                </View>
                 <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
                     <Text style={styles.registerButtonText}>Register</Text>
                 </TouchableOpacity>
@@ -80,40 +93,49 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         padding: 16,
-        backgroundColor: "#f9f9f9",
+        backgroundColor: "#001f3f",
     },
     title: {
-        fontSize: 24,
+        fontSize: 26,
         fontWeight: "bold",
-        marginBottom: 24,
-        color: "#333",
+        marginBottom: 8,
+        color: "#ffffff",
     },
     subtitle: {
         fontSize: 16,
-        color: "#666",
         marginBottom: 24,
+        color: "#cccccc",
     },
-    input: {
+    inputContainer: {
+        flexDirection: "row",
+        alignItems: "center",
         width: "100%",
         height: 48,
-        borderColor: "#ccc",
+        borderColor: "#00509E",
         borderWidth: 1,
         borderRadius: 8,
         paddingHorizontal: 12,
         marginBottom: 16,
-        backgroundColor: "#fff",
+        backgroundColor: "#00274d",
+    },
+    icon: {
+        marginRight: 8,
+    },
+    input: {
+        flex: 1,
+        color: "#ffffff",
     },
     registerButton: {
         width: "100%",
         height: 48,
-        backgroundColor: "#007BFF",
+        backgroundColor: "#00509E",
         borderRadius: 8,
         justifyContent: "center",
         alignItems: "center",
         marginBottom: 16,
     },
     registerButtonText: {
-        color: "#fff",
+        color: "#ffffff",
         fontSize: 16,
         fontWeight: "600",
     },
@@ -121,13 +143,13 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 48,
         borderWidth: 1,
-        borderColor: "#007BFF",
+        borderColor: "#00509E",
         borderRadius: 8,
         justifyContent: "center",
         alignItems: "center",
     },
     loginButtonText: {
-        color: "#007BFF",
+        color: "#00509E",
         fontSize: 16,
         fontWeight: "600",
     },

@@ -1,10 +1,11 @@
-import React, {useState} from "react";
-import {Image, StyleSheet, Text, TextInput, TouchableOpacity} from "react-native";
-import {useRouter} from "expo-router";
+import React, { useState } from "react";
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useRouter } from "expo-router";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {ThemedView} from "@/components/ThemedView";
-import {Button, Dialog, PaperProvider, Portal} from "react-native-paper";
+import { ThemedView } from "@/components/ThemedView";
+import { Button, Dialog, PaperProvider, Portal } from "react-native-paper";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import API_URL from "../../config/config";
 
 export default function LoginScreen() {
@@ -41,23 +42,33 @@ export default function LoginScreen() {
     return (
         <PaperProvider>
             <ThemedView style={styles.container}>
-                <Image source={require("../../assets/images/icon.png")} style={styles.logo} />
+                <View style={styles.logoContainer}>
+                    <Image source={require("../../assets/images/icon.png")} style={styles.logo} />
+                </View>
                 <Text style={styles.title}>Welcome Back!</Text>
                 <Text style={styles.subtitle}>Log in to continue</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Username"
-                    value={username}
-                    onChangeText={setUsername}
-                    autoCapitalize="none"
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
-                />
+                <View style={styles.inputContainer}>
+                    <Icon name="account" size={24} color="#ccc" style={styles.icon} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Username"
+                        placeholderTextColor="#ccc"
+                        value={username}
+                        onChangeText={setUsername}
+                        autoCapitalize="none"
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <Icon name="lock" size={24} color="#ccc" style={styles.icon} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Password"
+                        placeholderTextColor="#ccc"
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry
+                    />
+                </View>
                 <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
                     <Text style={styles.loginButtonText}>Login</Text>
                 </TouchableOpacity>
@@ -86,46 +97,58 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         padding: 16,
-        backgroundColor: "#f9f9f9",
+        backgroundColor: "#001f3f",
+    },
+    logoContainer: {
+        marginBottom: 24,
+        alignItems: "center",
     },
     logo: {
-        width: 150,
-        height: 150,
-        marginBottom: 24,
+        width: 120,
+        height: 120,
         resizeMode: "contain",
     },
     title: {
-        fontSize: 24,
+        fontSize: 26,
         fontWeight: "bold",
         marginBottom: 8,
-        color: "#333",
+        color: "#ffffff",
     },
     subtitle: {
         fontSize: 16,
         marginBottom: 24,
-        color: "#666",
+        color: "#cccccc",
     },
-    input: {
+    inputContainer: {
+        flexDirection: "row",
+        alignItems: "center",
         width: "100%",
         height: 48,
-        borderColor: "#ccc",
+        borderColor: "#00509E",
         borderWidth: 1,
         borderRadius: 8,
         paddingHorizontal: 12,
         marginBottom: 16,
-        backgroundColor: "#fff",
+        backgroundColor: "#00274d",
+    },
+    icon: {
+        marginRight: 8,
+    },
+    input: {
+        flex: 1,
+        color: "#ffffff",
     },
     loginButton: {
         width: "100%",
         height: 48,
-        backgroundColor: "#007BFF",
+        backgroundColor: "#00509E",
         borderRadius: 8,
         justifyContent: "center",
         alignItems: "center",
         marginBottom: 16,
     },
     loginButtonText: {
-        color: "#fff",
+        color: "#ffffff",
         fontSize: 16,
         fontWeight: "600",
     },
@@ -133,13 +156,13 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 48,
         borderWidth: 1,
-        borderColor: "#007BFF",
+        borderColor: "#00509E",
         borderRadius: 8,
         justifyContent: "center",
         alignItems: "center",
     },
     registerButtonText: {
-        color: "#007BFF",
+        color: "#00509E",
         fontSize: 16,
         fontWeight: "600",
     },

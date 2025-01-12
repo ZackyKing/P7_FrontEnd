@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {useRouter} from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -8,13 +8,8 @@ import {ThemedText} from '@/components/ThemedText';
 import {ActivityIndicator, Button, Dialog, PaperProvider, Portal, Text} from 'react-native-paper';
 import API_URL from '@/config/config';
 
-type UserProfile = {
-    username: string;
-    email: string;
-};
-
 const ProfileScreen = () => {
-    const [profile, setProfile] = useState<UserProfile | null>(null);
+    const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [dialogVisible, setDialogVisible] = useState(false);
     const router = useRouter();
@@ -26,7 +21,7 @@ const ProfileScreen = () => {
     const fetchProfile = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
-            const response = await axios.get<{ data: UserProfile }>(`${API_URL}/api/profile`, {
+            const response = await axios.get(`${API_URL}/api/profile`, {
                 headers: {Authorization: `Bearer ${token}`},
             });
             setProfile(response.data.data);
@@ -49,8 +44,8 @@ const ProfileScreen = () => {
     if (loading) {
         return (
             <PaperProvider>
-                <ThemedView style={styles.container}>
-                    <ActivityIndicator animating={true}/>
+                <ThemedView style={styles.loadingContainer}>
+                    <ActivityIndicator animating={true} color="#00509E" />
                 </ThemedView>
             </PaperProvider>
         );
@@ -59,20 +54,32 @@ const ProfileScreen = () => {
     return (
         <PaperProvider>
             <ThemedView style={styles.container}>
-                {profile ? (
-                    <ThemedView>
-                        <ThemedText style={styles.title}>Profile</ThemedText>
-                        <ThemedText style={styles.label}>Username:</ThemedText>
-                        <ThemedText style={styles.value}>{profile.username}</ThemedText>
-                        <ThemedText style={styles.label}>Email:</ThemedText>
-                        <ThemedText style={styles.value}>{profile.email}</ThemedText>
-                        <Button mode="contained" onPress={handleLogout} style={styles.logoutButton}>
-                            Log Out
-                        </Button>
-                    </ThemedView>
-                ) : (
-                    <ThemedText>No profile data available</ThemedText>
-                )}
+                <View style={styles.profileContainer}>
+                    <ThemedText style={styles.title}>Profile</ThemedText>
+                    {profile ? (
+                        <View style={styles.infoCard}>
+                            <View style={styles.infoContainer}>
+                                <ThemedText style={styles.label}>Username:</ThemedText>
+                                <ThemedText style={styles.value}>{profile.username}</ThemedText>
+                            </View>
+                            <View style={styles.infoContainer}>
+                                <ThemedText style={styles.label}>Email:</ThemedText>
+                                <ThemedText style={styles.value}>{profile.email}</ThemedText>
+                            </View>
+                        </View>
+                    ) : (
+                        <ThemedText>No profile data available</ThemedText>
+                    )}
+                    <Button
+                        mode="contained"
+                        onPress={handleLogout}
+                        style={styles.logoutButton}
+                        buttonColor="#FF4D4D"
+                        textColor="#ffffff"
+                    >
+                        Log Out
+                    </Button>
+                </View>
                 <Portal>
                     <Dialog visible={dialogVisible} onDismiss={() => setDialogVisible(false)}>
                         <Dialog.Title>Logout</Dialog.Title>
@@ -93,28 +100,47 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        padding: 16,
+        backgroundColor: '#001f3f',
+    },
+    loadingContainer: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 16,
+        backgroundColor: '#001f3f',
+    },
+    profileContainer: {
+        marginTop: 16,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 24,
-        color: '#333',
+        marginBottom: 16,
+        color: '#ffffff',
+        textAlign: 'left',
+    },
+    infoCard: {
+        backgroundColor: '#002f5f',
+        padding: 16,
+        borderRadius: 8,
+        marginBottom: 16,
+    },
+    infoContainer: {
+        marginBottom: 16,
     },
     label: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold',
-        marginTop: 16,
-        color: '#333',
+        color: '#ffffff',
     },
     value: {
-        fontSize: 18,
-        color: '#666',
+        fontSize: 16,
+        color: '#cccccc',
+        marginLeft: 8,
     },
     logoutButton: {
-        marginTop: 24,
+        marginTop: 32,
+        alignSelf: 'flex-start',
     },
 });
 
